@@ -5,7 +5,7 @@ import os
 
 Url = 'https://servicodados.ibge.gov.br/api/v3/agregados/5939/periodos/2002|2003|2004|2005|2006|2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017/variaveis/529|531|532|6568|534?localidades=N3[15]'
 
-#Requisisção dos dados
+###Requisisção dos dados###
 Data = requests.get(Url).json()
 
 #Funçao Cabeçario
@@ -82,22 +82,15 @@ def verificar(resposta):
       dado1 = Data[0]['resultados'][0]['series'][0]['serie']['2017']
       print(dado1)
 
-#Função Principal 
-def main ():
-  header()
-  resp = float(input("\nDigite um ano entre 2002 a 2017 (o valor deve ser do tipo inteiro)\n"))
-
-  #Verifica Resposta
-  if resp >= 2002 and resp <= 2017:
-    #Titulo
+#Função verificar resposta e loop
+def verificaResposta(primResposta):
+  if primResposta >= 2002 and primResposta <= 2017:
     titulo = Data[0]['variavel']
-    print('\n',titulo , 'no ano de', resp, 'é:')
-    #Resultado
-    verificar(resp)
-    
-    #Repetir ciclo
+    print('\n',titulo, 'no ano de', primResposta, 'é:')
+    verificar(primResposta)
+    #Repetir Ciclo
     print('===========================================================')
-    repetir = int(input("Deseja realizar um nova consulta ? \n[Digite 1 para sim ou 2 para não]\n"))
+    repetir = int(input("\nDeseja realizar um nova consulta ? \n[Digite 1 para sim ou 2 para não]\n"))
 
     if repetir == 1:
       os.system('clear') or None
@@ -109,38 +102,20 @@ def main ():
     print('\nNão tenho dados desse ano!\n')
     repetir = int(input("Deseja realizar um nova consulta ?\n[Digite 1 para sim ou 2 para não]\n"))
     if repetir == 1:
-      os.system('clear') or None
       main()
-      
     else:
       os.system('clear') or None
       print('Finalizando...')
 
+#Função Principal 
+def main ():
+  header()
+  resp = float(input("\nDigite um ano entre 2002 a 2017 (o valor deve ser do tipo inteiro)\n"))
+
+  #Verifica Resposta
+  verificaResposta(resp)
+  
 #Primeira Pergunta 
 header()
 resp = float(input("\nDigite um ano entre 2002 a 2017 (o valor deve ser do tipo inteiro)\n"))
-
-#Verifica a resposta
-if resp >= 2002 and resp <= 2017:
-  #Titulo
-  titulo = Data[0]['variavel']
-  print('\n',titulo, 'no ano de', resp, 'é:')
-  verificar(resp)
-  #Repetir Ciclo
-  print('===========================================================')
-  repetir = int(input("\nDeseja realizar um nova consulta ? \n[Digite 1 para sim ou 2 para não]\n"))
-
-  if repetir == 1:
-    os.system('clear') or None
-    main()
-  else:
-    os.system('clear') or None
-    print('Finalizando...')
-else:
-  print('\nNão tenho dados desse ano!\n')
-  repetir = int(input("Deseja realizar um nova consulta ?\n[Digite 1 para sim ou 2 para não]\n"))
-  if repetir == 1:
-    main()
-  else:
-    os.system('clear') or None
-    print('Finalizando...')
+verificaResposta(resp)
